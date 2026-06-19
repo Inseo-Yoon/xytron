@@ -27,6 +27,7 @@ setup(
             'track_drive = track_drive.track_drive:main',
             'lane_detector = track_drive.lane_detector_node:main',
             'traffic_light = track_drive.traffic_light_node:main',
+            'drunk_avoid_node = track_drive.drunk_avoid_node:main',
         ],
     },
 )

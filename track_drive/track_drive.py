@@ -23,6 +23,8 @@ class TrackDriverNode(Node):
         self.traffic_action = "WAIT_START"
         self.last_traffic_time = None
         self.start_released = False
+        self.drunk_avoid_active = False
+        self.drunk_avoid_cmd = XycarMotor()
 
         self.motor_pub = self.create_publisher(XycarMotor, "xycar_motor", 10)
 
@@ -54,6 +56,20 @@ class TrackDriverNode(Node):
             10,
         )
 
+        self.drunk_avoid_active_sub = self.create_subscription(
+            Bool,
+            "/drunk_avoid_active",
+            self.drunk_avoid_active_callback,
+            10,
+        )
+
+        self.drunk_avoid_cmd_sub = self.create_subscription(
+            XycarMotor,
+            "/drunk_avoid_cmd",
+            self.drunk_avoid_cmd_callback,
+            10,
+        )
+
         self.get_logger().info("Track Driver Node Initialized")
 
     def lane_angle_callback(self, msg):
@@ -71,10 +87,19 @@ class TrackDriverNode(Node):
         if msg.data in ("GO", "LEFT"):
             self.start_released = True
 
+    def drunk_avoid_active_callback(self, msg):
+        self.drunk_avoid_active = msg.data
+
+    def drunk_avoid_cmd_callback(self, msg):
+        self.drunk_avoid_cmd = msg
+
     def drive(self, angle, speed):
         self.motor_msg.angle = float(angle)
         self.motor_msg.speed = float(speed)
-        self.motor_pub.publish(self.motor_msg)
+        if self.drunk_avoid_active:
+            self.motor_pub.publish(self.drunk_avoid_cmd)
+        else:
+            self.motor_pub.publish(self.motor_msg)
 
     def main_loop(self):
         self.get_logger().info("======================================")
