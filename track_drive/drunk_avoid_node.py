@@ -15,7 +15,7 @@ from xycar_msgs.msg import XycarMotor
 
 class DrunkAvoidNode(Node):
     FRONT_HALF_ANGLE = math.radians(45.0)
-    EMERGENCY_STOP_DISTANCE = 0.55
+    EMERGENCY_STOP_DISTANCE = 0.35
     STOP_ENTER_DISTANCE = 0.8
     STOP_RELEASE_DISTANCE = 1.0
     AVOID_DISTANCE = 2.0
@@ -29,9 +29,13 @@ class DrunkAvoidNode(Node):
     AVOID_ANGLE = 45.0
     FAST_AVOID_SPEED = 7.0
     FAST_AVOID_ANGLE = 55.0
+    CLEARING_SPEED = 8.0
+    CLEARING_ANGLE = 35.0
+    CLEARING_SEC = 1.0
     APPROACH_DISTANCE_RATE = 0.35
     APPROACH_AREA_RATE = 0.04
     APPROACH_HEIGHT_RATE = 0.08
+    ROI_TOP_RATIO = 0.45
 
     def __init__(self):
         super().__init__('drunk_avoid_node')
@@ -43,6 +47,7 @@ class DrunkAvoidNode(Node):
         self.blue_height_ratio = 0.0
         self.blue_aspect_ratio = 0.0
         self.image_width = None
+        self.roi_top = 0
         self.front_min_distance = math.inf
         self.last_risk_time = None
         self.last_cmd = self.make_motor_msg(0.0, 0.0)
@@ -57,6 +62,9 @@ class DrunkAvoidNode(Node):
         self.area_growth_rate = 0.0
         self.height_growth_rate = 0.0
         self.approaching = False
+        self.prev_stop_required = False
+        self.clearing_until = 0.0
+        self.last_avoid_angle = 0.0
 
         self.active_pub = self.create_publisher(Bool, '/drunk_avoid_active', 10)
         self.cmd_pub = self.create_publisher(XycarMotor, '/drunk_avoid_cmd', 10)
@@ -83,8 +91,11 @@ class DrunkAvoidNode(Node):
             return
 
         self.image_width = image.shape[1]
-        image_area = image.shape[0] * image.shape[1]
-        hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
+        image_height = image.shape[0]
+        self.roi_top = int(image_height * self.ROI_TOP_RATIO)
+        roi = image[self.roi_top:, :]
+        roi_area = roi.shape[0] * roi.shape[1]
+        hsv = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
 
         lower_blue = np.array([90, 50, 30], dtype=np.uint8)
         upper_blue = np.array([135, 255, 255], dtype=np.uint8)
@@ -113,8 +124,8 @@ class DrunkAvoidNode(Node):
         _, _, width, height = cv2.boundingRect(largest)
         self.blue_detected = True
         self.blue_center_x = int(moments['m10'] / moments['m00'])
-        self.blue_area_ratio = area / image_area
-        self.blue_height_ratio = height / image.shape[0]
+        self.blue_area_ratio = area / roi_area
+        self.blue_height_ratio = height / roi.shape[0]
         self.blue_aspect_ratio = height / max(width, 1)
 
     def scan_callback(self, msg):
@@ -135,7 +146,7 @@ class DrunkAvoidNode(Node):
         now = self.get_clock().now().nanoseconds / 1e9
         self.update_approach_estimate(now)
         front_close = self.front_min_distance < self.AVOID_DISTANCE
-        emergency_stop = self.front_min_distance < self.EMERGENCY_STOP_DISTANCE
+        emergency_stop = self.blue_detected and self.front_min_distance < self.EMERGENCY_STOP_DISTANCE
         camera_stop = (
             self.blue_detected and
             (self.blue_height_ratio >= self.CAMERA_STOP_HEIGHT_RATIO or
@@ -148,12 +159,16 @@ class DrunkAvoidNode(Node):
             (self.blue_area_ratio >= self.CAMERA_AVOID_AREA_RATIO or
              self.blue_height_ratio >= self.CAMERA_AVOID_HEIGHT_RATIO)
         )
-        if self.front_min_distance < self.STOP_ENTER_DISTANCE:
+        if self.blue_detected and self.front_min_distance < self.STOP_ENTER_DISTANCE:
             self.stop_latched = True
-        elif self.front_min_distance > self.STOP_RELEASE_DISTANCE:
+        elif not self.blue_detected or self.front_min_distance > self.STOP_RELEASE_DISTANCE:
             self.stop_latched = False
 
         stop_required = emergency_stop or self.stop_latched or camera_stop
+        if self.prev_stop_required and not stop_required:
+            self.clearing_until = now + self.CLEARING_SEC
+
+        clearing_required = now < self.clearing_until
         fast_avoid_required = self.approaching and self.blue_detected
         avoid_required = (self.blue_detected and front_close) or camera_avoid
 
@@ -161,6 +176,11 @@ class DrunkAvoidNode(Node):
             active = True
             self.state = 'STOP'
             self.last_cmd = self.make_motor_msg(0.0, 0.0)
+            self.last_risk_time = now
+        elif clearing_required:
+            active = True
+            self.state = 'CLEARING'
+            self.last_cmd = self.make_clearing_cmd()
             self.last_risk_time = now
         elif fast_avoid_required:
             active = True
@@ -183,6 +203,7 @@ class DrunkAvoidNode(Node):
         self.cmd_pub.publish(self.last_cmd)
         self.log_state(now, active)
         self.save_previous_measurements(now)
+        self.prev_stop_required = stop_required
 
     def make_avoid_cmd(self, avoid_angle=None, avoid_speed=None):
         avoid_angle = self.AVOID_ANGLE if avoid_angle is None else avoid_angle
@@ -195,7 +216,19 @@ class DrunkAvoidNode(Node):
             angle = avoid_angle
         else:
             angle = -avoid_angle
+        self.last_avoid_angle = angle
         return self.make_motor_msg(angle, avoid_speed)
+
+    def make_clearing_cmd(self):
+        if self.blue_center_x is not None and self.image_width is not None:
+            return self.make_avoid_cmd(self.CLEARING_ANGLE, self.CLEARING_SPEED)
+        if self.last_avoid_angle > 0.0:
+            angle = self.CLEARING_ANGLE
+        elif self.last_avoid_angle < 0.0:
+            angle = -self.CLEARING_ANGLE
+        else:
+            angle = 0.0
+        return self.make_motor_msg(angle, self.CLEARING_SPEED)
 
     def update_approach_estimate(self, now):
         self.approaching = False
@@ -254,8 +287,10 @@ class DrunkAvoidNode(Node):
             f'state={self.state} active={active} front_min={distance} '
             f'blue={self.blue_detected} area={self.blue_area_ratio:.3f} '
             f'height={self.blue_height_ratio:.3f} aspect={self.blue_aspect_ratio:.2f} '
+            f'roi_top={self.roi_top} '
             f'approaching={self.approaching} close_rate={self.closing_rate:.2f} '
             f'area_rate={self.area_growth_rate:.3f} height_rate={self.height_growth_rate:.3f} '
+            f'clearing_left={max(0.0, self.clearing_until - now):.1f} '
             f'angle={self.last_cmd.angle:.1f} speed={self.last_cmd.speed:.1f}')
 
     @staticmethod
