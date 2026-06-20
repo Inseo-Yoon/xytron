@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import math
+import os
 from collections import deque
 
 import cv2
@@ -26,14 +27,19 @@ class DrunkAvoidNode(Node):
     YOLO_MODEL_NAME = 'yolov8n.pt'
     YOLO_CONFIDENCE = 0.45
     YOLO_INFERENCE_INTERVAL = 3
+    SHOW_DEBUG_WINDOW = True
+    DEBUG_WINDOW_NAME = 'Drunk Avoid - YOLO Debug'
+    DEBUG_DISPLAY_WIDTH = 960
 
     HSV_LOWER_BLUE = np.array([90, 50, 30], dtype=np.uint8)
     HSV_UPPER_BLUE = np.array([135, 255, 255], dtype=np.uint8)
     HSV_ROI_TOP_RATIO = 0.45
     MIN_BLOB_AREA = 1200.0
 
-    DANGER_ZONE_LEFT = 0.40
-    DANGER_ZONE_RIGHT = 0.60
+    DANGER_ZONE_LEFT = 0.05
+    DANGER_ZONE_RIGHT = 0.95
+    DANGER_ZONE_TOP = 0.45
+    DANGER_ZONE_BOTTOM = 0.90
     CENTER_HISTORY_SIZE = 5
     DIRECTION_THRESHOLD = 0.01
 
@@ -56,6 +62,7 @@ class DrunkAvoidNode(Node):
 
         self.bridge = CvBridge()
         self.image_width = None
+        self.image_height = None
         self.frame_count = 0
 
         self.yolo_model = None
@@ -63,10 +70,12 @@ class DrunkAvoidNode(Node):
         self.person_detected = False
         self.person_confidence = 0.0
         self.person_center_x = None
+        self.person_bbox = None
 
         self.blue_detected = False
         self.blue_center_x = None
         self.blue_area_ratio = 0.0
+        self.blue_bbox = None
 
         self.candidate_detected = False
         self.candidate_center_x = None
@@ -81,6 +90,9 @@ class DrunkAvoidNode(Node):
         self.stop_started_at = None
         self.last_log_time = 0.0
         self.last_cmd = self.make_motor_msg(0.0, 0.0)
+        self.debug_window_enabled = self.SHOW_DEBUG_WINDOW and bool(
+            os.environ.get('DISPLAY') or os.environ.get('WAYLAND_DISPLAY'))
+        self.debug_window_initialized = False
 
         self.active_pub = self.create_publisher(Bool, '/drunk_avoid_active', 10)
         self.cmd_pub = self.create_publisher(XycarMotor, '/drunk_avoid_cmd', 10)
@@ -99,6 +111,9 @@ class DrunkAvoidNode(Node):
         self.initialize_yolo()
         mode = 'YOLO + HSV' if self.yolo_enabled else 'HSV fallback'
         self.get_logger().info(f'Drunk Avoid Node Initialized ({mode})')
+        if not self.debug_window_enabled:
+            self.get_logger().warn(
+                'Debug window disabled because DISPLAY/WAYLAND_DISPLAY is unavailable.')
 
     def initialize_yolo(self):
         if YOLO is None:
@@ -121,7 +136,7 @@ class DrunkAvoidNode(Node):
             self.get_logger().warn(f'Failed to convert camera image: {exc}')
             return
 
-        self.image_width = image.shape[1]
+        self.image_height, self.image_width = image.shape[:2]
         self.frame_count += 1
         self.detect_blue_blob(image)
 
@@ -129,6 +144,7 @@ class DrunkAvoidNode(Node):
             self.detect_person(image)
 
         self.update_candidate()
+        self.show_debug_image(image)
 
     def detect_person(self, image):
         try:
@@ -155,20 +171,21 @@ class DrunkAvoidNode(Node):
                 confidence = float(box.conf[0].item())
                 if class_id != 0 or confidence < self.YOLO_CONFIDENCE:
                     continue
-                x1, _, x2, _ = box.xyxy[0].cpu().tolist()
-                area = float(box.xywh[0][2].item() * box.xywh[0][3].item())
+                x1, y1, x2, y2 = box.xyxy[0].cpu().tolist()
+                area = (x2 - x1) * (y2 - y1)
                 if area > largest_area:
                     largest_area = area
-                    largest_person = (x1, x2, confidence)
+                    largest_person = (x1, y1, x2, y2, confidence)
 
         if largest_person is None:
             self.clear_person_detection()
             return
 
-        x1, x2, confidence = largest_person
+        x1, y1, x2, y2, confidence = largest_person
         self.person_detected = True
         self.person_confidence = confidence
         self.person_center_x = ((x1 + x2) * 0.5) / max(self.image_width, 1)
+        self.person_bbox = tuple(map(int, (x1, y1, x2, y2)))
 
     def detect_blue_blob(self, image):
         image_height, image_width = image.shape[:2]
@@ -196,9 +213,11 @@ class DrunkAvoidNode(Node):
             return
 
         center_x_pixels = moments['m10'] / moments['m00']
+        x, y, width, height = cv2.boundingRect(largest)
         self.blue_detected = True
         self.blue_center_x = center_x_pixels / max(image_width, 1)
         self.blue_area_ratio = area / roi_area
+        self.blue_bbox = (x, y + roi_top, x + width, y + roi_top + height)
 
     def update_candidate(self):
         self.candidate_detected = self.person_detected or self.blue_detected
@@ -331,23 +350,103 @@ class DrunkAvoidNode(Node):
     def is_candidate_in_danger_zone(self):
         person_in_danger = (
             self.person_detected and
-            self.person_center_x is not None and
-            self.DANGER_ZONE_LEFT <= self.person_center_x <= self.DANGER_ZONE_RIGHT)
+            self.bbox_anchor_in_danger_zone(self.person_bbox))
         blue_in_danger = (
             self.blue_detected and
-            self.blue_center_x is not None and
-            self.DANGER_ZONE_LEFT <= self.blue_center_x <= self.DANGER_ZONE_RIGHT)
+            self.bbox_anchor_in_danger_zone(self.blue_bbox))
         return person_in_danger or blue_in_danger
+
+    def bbox_anchor_in_danger_zone(self, bbox):
+        if bbox is None or not self.image_width or not self.image_height:
+            return False
+
+        x1, _, x2, y2 = bbox
+        center_x = ((x1 + x2) * 0.5) / self.image_width
+        bottom_y = y2 / self.image_height
+        return (
+            self.DANGER_ZONE_LEFT <= center_x <= self.DANGER_ZONE_RIGHT and
+            self.DANGER_ZONE_TOP <= bottom_y <= self.DANGER_ZONE_BOTTOM)
+
+    def show_debug_image(self, image):
+        if not self.debug_window_enabled:
+            return
+
+        debug_image = image.copy()
+        image_height, image_width = debug_image.shape[:2]
+        danger_left = int(image_width * self.DANGER_ZONE_LEFT)
+        danger_right = int(image_width * self.DANGER_ZONE_RIGHT)
+        danger_top = int(image_height * self.DANGER_ZONE_TOP)
+        danger_bottom = int(image_height * self.DANGER_ZONE_BOTTOM)
+
+        overlay = debug_image.copy()
+        cv2.rectangle(
+            overlay, (danger_left, danger_top), (danger_right, danger_bottom),
+            (0, 0, 255), -1)
+        debug_image = cv2.addWeighted(overlay, 0.12, debug_image, 0.88, 0.0)
+        cv2.rectangle(
+            debug_image, (danger_left, danger_top),
+            (danger_right, danger_bottom), (0, 0, 255), 2)
+
+        if self.person_bbox is not None and self.person_detected:
+            x1, y1, x2, y2 = self.person_bbox
+            cv2.rectangle(debug_image, (x1, y1), (x2, y2), (0, 255, 0), 3)
+            cv2.putText(
+                debug_image, f'person {self.person_confidence:.2f}',
+                (x1, max(25, y1 - 8)), cv2.FONT_HERSHEY_SIMPLEX,
+                0.7, (0, 255, 0), 2, cv2.LINE_AA)
+
+        if self.blue_bbox is not None and self.blue_detected:
+            x1, y1, x2, y2 = self.blue_bbox
+            cv2.rectangle(debug_image, (x1, y1), (x2, y2), (255, 255, 0), 2)
+            cv2.putText(
+                debug_image, 'blue HSV', (x1, min(image_height - 8, y2 + 24)),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.65, (255, 255, 0),
+                2, cv2.LINE_AA)
+
+        distance = (
+            f'{self.front_min_distance:.2f} m'
+            if self.front_distance_valid else 'invalid')
+        status_lines = [
+            f'STATE: {self.state}',
+            f'YOLO: {self.person_detected}  HSV: {self.blue_detected}',
+            f'FRONT: {distance}  DIR: {self.pedestrian_direction}',
+        ]
+        for index, text in enumerate(status_lines):
+            y = 30 + index * 30
+            cv2.putText(
+                debug_image, text, (12, y), cv2.FONT_HERSHEY_SIMPLEX,
+                0.7, (20, 20, 20), 4, cv2.LINE_AA)
+            cv2.putText(
+                debug_image, text, (12, y), cv2.FONT_HERSHEY_SIMPLEX,
+                0.7, (255, 255, 255), 2, cv2.LINE_AA)
+
+        if image_width > self.DEBUG_DISPLAY_WIDTH:
+            scale = self.DEBUG_DISPLAY_WIDTH / image_width
+            debug_image = cv2.resize(
+                debug_image, None, fx=scale, fy=scale,
+                interpolation=cv2.INTER_AREA)
+
+        try:
+            if not self.debug_window_initialized:
+                cv2.namedWindow(self.DEBUG_WINDOW_NAME, cv2.WINDOW_NORMAL)
+                self.debug_window_initialized = True
+            cv2.imshow(self.DEBUG_WINDOW_NAME, debug_image)
+            cv2.waitKey(1)
+        except cv2.error as exc:
+            self.debug_window_enabled = False
+            self.get_logger().warn(f'Disabling debug window: {exc}')
 
     def clear_person_detection(self):
         self.person_detected = False
         self.person_confidence = 0.0
         self.person_center_x = None
+        self.person_bbox = None
 
     def clear_blue_detection(self):
         self.blue_detected = False
         self.blue_center_x = None
         self.blue_area_ratio = 0.0
+        self.blue_bbox = None
 
     def log_state(self, now, active):
         if now - self.last_log_time < 0.5:
@@ -390,6 +489,7 @@ def main(args=None):
     except KeyboardInterrupt:
         pass
     finally:
+        cv2.destroyAllWindows()
         node.destroy_node()
         rclpy.shutdown()
 
