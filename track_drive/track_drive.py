@@ -23,6 +23,8 @@ class TrackDriverNode(Node):
         self.traffic_action = "WAIT_START"
         self.last_traffic_time = None
         self.start_released = False
+        self.signal_approach_speed = 10.0
+        self.red_approach_speed = 8.5
 
         self.motor_pub = self.create_publisher(XycarMotor, "xycar_motor", 10)
 
@@ -84,7 +86,7 @@ class TrackDriverNode(Node):
         while rclpy.ok():
             rclpy.spin_once(self, timeout_sec=0.01)
 
-            speed = max(3.0, 5.0 - 0.05 * abs(self.lane_angle))
+            speed = max(8.0, 20.0 - 0.25 * abs(self.lane_angle))
             if self.lane_departure:
                 speed = min(speed, 3.0)
 
@@ -98,6 +100,10 @@ class TrackDriverNode(Node):
                 speed = 0.0
             elif not self.start_released:
                 speed = 0.0
+            elif self.traffic_action == "RED_APPROACH":
+                speed = self.red_approach_speed
+            elif self.traffic_action == "SIGNAL_APPROACH":
+                speed = self.signal_approach_speed
             elif self.traffic_action == "SLOW":
                 speed = min(speed, 2.0)
             elif self.traffic_action == "LEFT":

@@ -17,10 +17,16 @@ class LaneDetectorNode(Node):
         self.bridge = CvBridge()
         self.prev_angle = 0.0
 
-        self.angle_scale = 70.0
+        self.angle_scale = 85.0
         self.alpha = 0.7
         self.base_speed = 5.0
         self.debug_view = False
+        self.last_lane_point_counts = {
+            "yellow": 0,
+            "left_white": 0,
+            "right_white": 0,
+            "target": 0,
+        }
 
         self.publisher_angle = self.create_publisher(Float32, "/lane_angle", 10)
         self.publisher_departure = self.create_publisher(Bool, "/lane_departure", 10)
@@ -51,7 +57,8 @@ class LaneDetectorNode(Node):
 
         self.get_logger().info(
             f"[LANE] angle: {angle:.2f}, error: {steering_error:.2f}, "
-            f"visible_lanes: {visible_lane_count}, departure: {lane_departure}"
+            f"visible_lanes: {visible_lane_count}, departure: {lane_departure}, "
+            f"points: {self.last_lane_point_counts}"
         )
 
         if self.debug_view and debug_image is not None:
@@ -81,12 +88,12 @@ class LaneDetectorNode(Node):
 
         hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
-        lower_yellow = np.array([20, 80, 80])
-        upper_yellow = np.array([35, 255, 255])
+        lower_yellow = np.array([15, 50, 50])
+        upper_yellow = np.array([45, 255, 255])
         yellow_mask = cv2.inRange(hsv, lower_yellow, upper_yellow)
 
-        lower_white = np.array([0, 0, 180])
-        upper_white = np.array([179, 60, 255])
+        lower_white = np.array([0, 0, 130])
+        upper_white = np.array([179, 120, 255])
         white_mask = cv2.inRange(hsv, lower_white, upper_white)
 
         yellow_lane_mask = cv2.bitwise_and(yellow_mask, roi_mask)
@@ -99,10 +106,17 @@ class LaneDetectorNode(Node):
             yellow_kernel,
         )
 
+        white_kernel = np.ones((5, 15), np.uint8)
+        white_lane_mask = cv2.morphologyEx(
+            white_lane_mask,
+            cv2.MORPH_CLOSE,
+            white_kernel,
+        )
+
         left_white_mask, right_white_mask = self.split_white_components_by_yellow(
             white_lane_mask,
             yellow_lane_mask,
-            min_area=80,
+            min_area=40,
         )
 
         yellow_points = self.get_center_points(
@@ -113,15 +127,15 @@ class LaneDetectorNode(Node):
         )
         left_white_points = self.get_center_points(
             left_white_mask,
-            min_pixels=20,
+            min_pixels=8,
             step=20,
-            max_x_jump=80,
+            max_x_jump=120,
         )
         right_white_points = self.get_center_points(
             right_white_mask,
-            min_pixels=20,
+            min_pixels=8,
             step=20,
-            max_x_jump=80,
+            max_x_jump=120,
         )
 
         lane_half_width = int(width * 0.18)
@@ -131,6 +145,12 @@ class LaneDetectorNode(Node):
             right_white_points,
             lane_half_width,
         )
+        self.last_lane_point_counts = {
+            "yellow": len(yellow_points),
+            "left_white": len(left_white_points),
+            "right_white": len(right_white_points),
+            "target": len(target_points),
+        }
 
         yellow_visible = len(yellow_points) >= 3
         left_white_visible = len(left_white_points) >= 3
