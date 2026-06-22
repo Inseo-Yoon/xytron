@@ -1,0 +1,237 @@
+[0.043s] Invoking command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/wlwnstn2396/xycar_ws/src/xycar_msgs -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/wlwnstn2396/xycar_ws/install/xycar_msgs
+[0.736s] -- The C compiler identification is GNU 11.4.0
+[0.843s] -- The CXX compiler identification is GNU 11.4.0
+[1.312s] -- Detecting C compiler ABI info
+[1.527s] -- Detecting C compiler ABI info - done
+[1.536s] -- Check for working C compiler: /usr/bin/cc - skipped
+[1.538s] -- Detecting C compile features
+[1.539s] -- Detecting C compile features - done
+[1.546s] -- Detecting CXX compiler ABI info
+[1.760s] -- Detecting CXX compiler ABI info - done
+[1.771s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[1.771s] -- Detecting CXX compile features
+[1.772s] -- Detecting CXX compile features - done
+[1.803s] -- Found ament_cmake: 1.3.14 (/opt/ros/humble/share/ament_cmake/cmake)
+[1.974s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[2.089s] -- Override CMake install command with custom implementation using symlinks instead of copying resources
+[2.163s] -- Found rosidl_default_generators: 1.2.1 (/opt/ros/humble/share/rosidl_default_generators/cmake)
+[2.178s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[2.196s] -- Found rosidl_adapter: 3.1.8 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[2.447s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[2.529s] -- Found std_msgs: 4.9.1 (/opt/ros/humble/share/std_msgs/cmake)
+[2.576s] -- Found sensor_msgs: 4.9.1 (/opt/ros/humble/share/sensor_msgs/cmake)
+[2.936s] -- Found ament_cmake_ros: 0.10.0 (/opt/ros/humble/share/ament_cmake_ros/cmake)
+[3.235s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[3.714s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[3.825s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3.6") 
+[3.828s] -- Found python_cmake_module: 0.10.0 (/opt/ros/humble/share/python_cmake_module/cmake)
+[4.173s] -- Found PythonLibs: /usr/lib/x86_64-linux-gnu/libpython3.10.so (found suitable version "3.10.12", minimum required is "3.5") 
+[4.173s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[4.173s] -- Using PYTHON_INCLUDE_DIRS: /usr/include/python3.10
+[4.173s] -- Using PYTHON_LIBRARIES: /usr/lib/x86_64-linux-gnu/libpython3.10.so
+[4.200s] -- Found PythonExtra: .so  
+[4.487s] -- Found ament_lint_auto: 0.12.15 (/opt/ros/humble/share/ament_lint_auto/cmake)
+[4.543s] -- Added test 'lint_cmake' to check CMake code style
+[4.547s] -- Added test 'xmllint' to check XML markup files
+[4.556s] -- Configuring done
+[4.623s] -- Generating done
+[4.636s] -- Build files have been written to: /home/wlwnstn2396/xycar_ws/build/xycar_msgs
+[4.648s] Invoked command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/wlwnstn2396/xycar_ws/src/xycar_msgs -DAMENT_CMAKE_SYMLINK_INSTALL=1 -DCMAKE_INSTALL_PREFIX=/home/wlwnstn2396/xycar_ws/install/xycar_msgs
+[4.648s] Invoking command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/wlwnstn2396/xycar_ws/build/xycar_msgs -- -j16 -l16
+[4.693s] [  2%] [34m[1mGenerating C code for ROS interfaces[0m
+[4.705s] [  7%] [34m[1mGenerating Rust code for ROS interfaces[0m
+[4.705s] [  7%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[4.714s] [  7%] Built target ament_cmake_python_symlink_xycar_msgs
+[4.915s] [  7%] Built target xycar_msgs__rs
+[4.915s] running egg_info
+[4.916s] creating xycar_msgs.egg-info
+[4.916s] writing xycar_msgs.egg-info/PKG-INFO
+[4.916s] writing dependency_links to xycar_msgs.egg-info/dependency_links.txt
+[4.916s] writing top-level names to xycar_msgs.egg-info/top_level.txt
+[4.917s] writing manifest file 'xycar_msgs.egg-info/SOURCES.txt'
+[4.918s] reading manifest file 'xycar_msgs.egg-info/SOURCES.txt'
+[4.919s] writing manifest file 'xycar_msgs.egg-info/SOURCES.txt'
+[4.948s] [  7%] Built target ament_cmake_python_build_xycar_msgs_egg
+[4.966s] [  7%] Built target xycar_msgs__cpp
+[4.977s] [ 12%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[4.977s] [ 12%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[4.977s] [ 15%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[4.985s] [ 17%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_generator_c.dir/rosidl_generator_c/xycar_msgs/msg/detail/xycar_motor__functions.c.o[0m
+[4.989s] [ 20%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_generator_c.dir/rosidl_generator_c/xycar_msgs/msg/detail/xycar_ultrasonic__functions.c.o[0m
+[5.072s] [ 22%] [32m[1mLinking C shared library libxycar_msgs__rosidl_generator_c.so[0m
+[5.192s] [ 27%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/xycar_msgs/msg/xycar_motor__type_support.cpp.o[0m
+[5.192s] [ 27%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/xycar_msgs/msg/xycar_ultrasonic__type_support.cpp.o[0m
+[5.210s] [ 30%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/xycar_msgs/msg/detail/xycar_motor__type_support.cpp.o[0m
+[5.211s] [ 32%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/xycar_msgs/msg/detail/xycar_ultrasonic__type_support.cpp.o[0m
+[5.215s] [ 32%] Built target xycar_msgs__rosidl_generator_c
+[5.216s] [ 37%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/xycar_msgs/msg/detail/dds_fastrtps/xycar_ultrasonic__type_support.cpp.o[0m
+[5.216s] [ 37%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/xycar_msgs/msg/detail/dds_fastrtps/xycar_motor__type_support.cpp.o[0m
+[5.226s] [ 40%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[5.227s] [ 42%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[5.227s] [ 45%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[5.529s] [ 47%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/xycar_msgs/msg/xycar_ultrasonic__type_support.cpp.o[0m
+[5.532s] [ 50%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_c.dir/rosidl_typesupport_c/xycar_msgs/msg/xycar_motor__type_support.cpp.o[0m
+[5.573s] [ 52%] [32m[1mLinking CXX shared library libxycar_msgs__rosidl_typesupport_c.so[0m
+[5.575s] [ 55%] [32m[1mLinking CXX shared library libxycar_msgs__rosidl_typesupport_cpp.so[0m
+[5.580s] [ 60%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/xycar_msgs/msg/detail/xycar_motor__type_support.c.o[0m
+[5.580s] [ 60%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/xycar_msgs/msg/detail/xycar_ultrasonic__type_support.c.o[0m
+[5.588s] [ 62%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/xycar_msgs/msg/detail/xycar_motor__type_support_c.cpp.o[0m
+[5.592s] [ 65%] [32mBuilding CXX object CMakeFiles/xycar_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/xycar_msgs/msg/detail/xycar_ultrasonic__type_support_c.cpp.o[0m
+[5.636s] [ 67%] [32m[1mLinking C shared library libxycar_msgs__rosidl_typesupport_introspection_c.so[0m
+[5.698s] [ 67%] Built target xycar_msgs__rosidl_typesupport_cpp
+[5.714s] [ 67%] Built target xycar_msgs__rosidl_typesupport_c
+[5.801s] [ 70%] [32m[1mLinking CXX shared library libxycar_msgs__rosidl_typesupport_introspection_cpp.so[0m
+[5.809s] [ 70%] Built target xycar_msgs__rosidl_typesupport_introspection_c
+[5.811s] [ 72%] [32m[1mLinking CXX shared library libxycar_msgs__rosidl_typesupport_fastrtps_cpp.so[0m
+[5.926s] [ 75%] [32m[1mLinking CXX shared library libxycar_msgs__rosidl_typesupport_fastrtps_c.so[0m
+[5.948s] [ 75%] Built target xycar_msgs__rosidl_typesupport_introspection_cpp
+[5.949s] [ 75%] Built target xycar_msgs__rosidl_typesupport_fastrtps_cpp
+[6.108s] [ 75%] Built target xycar_msgs__rosidl_typesupport_fastrtps_c
+[6.142s] [ 75%] Built target xycar_msgs
+[6.173s] [ 77%] [34m[1mGenerating Python code for ROS interfaces[0m
+[6.615s] [ 77%] Built target xycar_msgs__py
+[6.633s] [ 80%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_generator_py.dir/rosidl_generator_py/xycar_msgs/msg/_xycar_motor_s.c.o[0m
+[6.633s] [ 82%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_generator_py.dir/rosidl_generator_py/xycar_msgs/msg/_xycar_ultrasonic_s.c.o[0m
+[6.787s] [ 85%] [32m[1mLinking C shared library rosidl_generator_py/xycar_msgs/libxycar_msgs__rosidl_generator_py.so[0m
+[6.940s] [ 85%] Built target xycar_msgs__rosidl_generator_py
+[6.961s] [ 90%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_c.c.o[0m
+[6.962s] [ 90%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[6.962s] [ 92%] [32mBuilding C object CMakeFiles/xycar_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[7.043s] [100%] [32m[1mLinking C shared library rosidl_generator_py/xycar_msgs/xycar_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[7.043s] [100%] [32m[1mLinking C shared library rosidl_generator_py/xycar_msgs/xycar_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[7.043s] [100%] [32m[1mLinking C shared library rosidl_generator_py/xycar_msgs/xycar_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[7.135s] [100%] Built target xycar_msgs__rosidl_typesupport_fastrtps_c__pyext
+[7.135s] [100%] Built target xycar_msgs__rosidl_typesupport_c__pyext
+[7.136s] [100%] Built target xycar_msgs__rosidl_typesupport_introspection_c__pyext
+[7.145s] Invoked command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/wlwnstn2396/xycar_ws/build/xycar_msgs -- -j16 -l16
+[7.155s] Invoking command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/wlwnstn2396/xycar_ws/build/xycar_msgs
+[7.161s] -- Install configuration: ""
+[7.162s] -- Execute custom install script
+[7.162s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/ament_index/resource_index/rosidl_interfaces/xycar_msgs
+[7.172s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__functions.h
+[7.179s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__struct.h
+[7.187s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__type_support.h
+[7.194s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__functions.h
+[7.203s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__struct.h
+[7.213s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__type_support.h
+[7.223s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/rosidl_generator_c__visibility_control.h
+[7.236s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/xycar_motor.h
+[7.251s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/xycar_ultrasonic.h
+[7.266s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/library_path.sh
+[7.281s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/library_path.dsv
+[7.292s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__rosidl_typesupport_fastrtps_c.h
+[7.302s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__rosidl_typesupport_fastrtps_c.h
+[7.311s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h
+[7.320s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__rosidl_typesupport_introspection_c.h
+[7.328s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__rosidl_typesupport_introspection_c.h
+[7.337s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h
+[7.345s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__builder.hpp
+[7.353s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__struct.hpp
+[7.363s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__traits.hpp
+[7.374s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__type_support.hpp
+[7.384s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__builder.hpp
+[7.392s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__struct.hpp
+[7.401s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__traits.hpp
+[7.409s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__type_support.hpp
+[7.418s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/rosidl_generator_cpp__visibility_control.hpp
+[7.425s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/xycar_motor.hpp
+[7.433s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/xycar_ultrasonic.hpp
+[7.442s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__rosidl_typesupport_fastrtps_cpp.hpp
+[7.449s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__rosidl_typesupport_fastrtps_cpp.hpp
+[7.457s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/rosidl_typesupport_fastrtps_cpp__visibility_control.h
+[7.466s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_motor__rosidl_typesupport_introspection_cpp.hpp
+[7.474s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/include/xycar_msgs/xycar_msgs/msg/detail/xycar_ultrasonic__rosidl_typesupport_introspection_cpp.hpp
+[7.483s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/pythonpath.sh
+[7.492s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/pythonpath.dsv
+[7.502s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs-0.0.0-py3.10.egg-info/PKG-INFO
+[7.512s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs-0.0.0-py3.10.egg-info/SOURCES.txt
+[7.520s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs-0.0.0-py3.10.egg-info/dependency_links.txt
+[7.529s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs-0.0.0-py3.10.egg-info/top_level.txt
+[7.538s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/__init__.py
+[7.547s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_c.c
+[7.557s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+[7.566s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/_xycar_msgs_s.ep.rosidl_typesupport_introspection_c.c
+[7.575s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/libxycar_msgs__rosidl_generator_py.so
+[7.583s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/__init__.py
+[7.591s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_motor.py
+[7.600s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_motor_s.c
+[7.609s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_ultrasonic.py
+[7.618s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_ultrasonic_s.c
+[7.626s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[7.637s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[7.646s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[7.655s] -- Up-to-date symlink: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so
+[7.656s] -- Up-to-date symlink: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so
+[7.656s] -- Up-to-date symlink: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/xycar_msgs_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so
+[7.657s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/ament_index/resource_index/rust_packages/xycar_msgs
+[7.668s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/rust/Cargo.toml
+[7.677s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/rust/build.rs
+[7.688s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/rust/src/lib.rs
+[7.699s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/rust/src/msg.rs
+[7.707s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/rust/src/msg/rmw.rs
+[7.719s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/msg/XycarMotor.idl
+[7.728s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/msg/XycarUltrasonic.idl
+[7.737s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/msg/XycarMotor.msg
+[7.746s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/msg/XycarUltrasonic.msg
+[7.755s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/ament_index/resource_index/package_run_dependencies/xycar_msgs
+[7.764s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/ament_index/resource_index/parent_prefix_path/xycar_msgs
+[7.772s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/ament_prefix_path.sh
+[7.785s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/ament_prefix_path.dsv
+[7.798s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/path.sh
+[7.809s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/environment/path.dsv
+[7.821s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/local_setup.bash
+[7.835s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/local_setup.sh
+[7.845s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/local_setup.zsh
+[7.855s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/local_setup.dsv
+[7.867s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/package.dsv
+[7.876s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/ament_index/resource_index/packages/xycar_msgs
+[7.884s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/rosidl_cmake-extras.cmake
+[7.891s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/ament_cmake_export_dependencies-extras.cmake
+[7.902s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/ament_cmake_export_include_directories-extras.cmake
+[7.911s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/ament_cmake_export_libraries-extras.cmake
+[7.921s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/ament_cmake_export_targets-extras.cmake
+[7.932s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/rosidl_cmake_export_typesupport_targets-extras.cmake
+[7.943s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/rosidl_cmake_export_typesupport_libraries-extras.cmake
+[7.958s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgsConfig.cmake
+[7.972s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgsConfig-version.cmake
+[7.987s] -- Symlinking: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/package.xml
+[8.008s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_generator_c.so
+[8.009s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_generator_c.so" to ""
+[8.009s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_fastrtps_c.so
+[8.010s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_fastrtps_c.so" to ""
+[8.010s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_introspection_c.so
+[8.010s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_introspection_c.so" to ""
+[8.011s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_c.so
+[8.011s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_c.so" to ""
+[8.011s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_fastrtps_cpp.so
+[8.012s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_fastrtps_cpp.so" to ""
+[8.012s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_introspection_cpp.so
+[8.013s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_introspection_cpp.so" to ""
+[8.013s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_cpp.so
+[8.013s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_typesupport_cpp.so" to ""
+[8.087s] Listing '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs'...
+[8.087s] Compiling '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/__init__.py'...
+[8.087s] Listing '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg'...
+[8.087s] Compiling '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/__init__.py'...
+[8.087s] Compiling '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_motor.py'...
+[8.087s] Compiling '/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages/xycar_msgs/msg/_xycar_ultrasonic.py'...
+[8.091s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_generator_py.so
+[8.092s] -- Set runtime path of "/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib/libxycar_msgs__rosidl_generator_py.so" to ""
+[8.092s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_generator_cExport.cmake
+[8.092s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_generator_cExport-noconfig.cmake
+[8.092s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_typesupport_fastrtps_cExport.cmake
+[8.092s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_typesupport_fastrtps_cExport-noconfig.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_introspection_cExport.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_introspection_cExport-noconfig.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_cExport.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_cExport-noconfig.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_generator_cppExport.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_typesupport_fastrtps_cppExport.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_typesupport_fastrtps_cppExport-noconfig.cmake
+[8.093s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_introspection_cppExport.cmake
+[8.094s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_introspection_cppExport-noconfig.cmake
+[8.094s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_cppExport.cmake
+[8.094s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/xycar_msgs__rosidl_typesupport_cppExport-noconfig.cmake
+[8.094s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_generator_pyExport.cmake
+[8.094s] -- Installing: /home/wlwnstn2396/xycar_ws/install/xycar_msgs/share/xycar_msgs/cmake/export_xycar_msgs__rosidl_generator_pyExport-noconfig.cmake
+[8.096s] Invoked command in '/home/wlwnstn2396/xycar_ws/build/xycar_msgs' returned '0': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --install /home/wlwnstn2396/xycar_ws/build/xycar_msgs

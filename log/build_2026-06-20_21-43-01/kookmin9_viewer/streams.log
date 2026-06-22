@@ -1,0 +1,24 @@
+[1.119s] Invoking command in '/home/wlwnstn2396/xycar_ws/build/kookmin9_viewer': AMENT_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs LD_LIBRARY_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/lib/python3.10/site-packages:/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/build --no-deps symlink_data
+[1.324s] running develop
+[1.442s] running egg_info
+[1.442s] creating kookmin9_viewer.egg-info
+[1.443s] writing kookmin9_viewer.egg-info/PKG-INFO
+[1.443s] writing dependency_links to kookmin9_viewer.egg-info/dependency_links.txt
+[1.443s] writing entry points to kookmin9_viewer.egg-info/entry_points.txt
+[1.443s] writing requirements to kookmin9_viewer.egg-info/requires.txt
+[1.443s] writing top-level names to kookmin9_viewer.egg-info/top_level.txt
+[1.443s] writing manifest file 'kookmin9_viewer.egg-info/SOURCES.txt'
+[1.445s] reading manifest file 'kookmin9_viewer.egg-info/SOURCES.txt'
+[1.445s] writing manifest file 'kookmin9_viewer.egg-info/SOURCES.txt'
+[1.446s] running build_ext
+[1.447s] Creating /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/lib/python3.10/site-packages/kookmin9-viewer.egg-link (link to .)
+[1.447s] Installing test_viewer script to /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/lib/kookmin9_viewer
+[1.448s] 
+[1.448s] Installed /home/wlwnstn2396/xycar_ws/build/kookmin9_viewer
+[1.448s] running symlink_data
+[1.448s] creating /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/share/ament_index
+[1.448s] creating /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/share/ament_index/resource_index
+[1.448s] creating /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/share/ament_index/resource_index/packages
+[1.448s] symbolically linking /home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/resource/kookmin9_viewer -> /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/share/ament_index/resource_index/packages
+[1.449s] symbolically linking /home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/package.xml -> /home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/share/kookmin9_viewer
+[1.482s] Invoked command in '/home/wlwnstn2396/xycar_ws/build/kookmin9_viewer' returned '0': AMENT_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs LD_LIBRARY_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wlwnstn2396/xycar_ws/install/kookmin9_viewer/lib/python3.10/site-packages:/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/wlwnstn2396/xycar_ws/build/kookmin9_viewer/build --no-deps symlink_data

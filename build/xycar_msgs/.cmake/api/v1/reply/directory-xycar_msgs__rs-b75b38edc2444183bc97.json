@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "xycar_msgs__rs",
+		"source" : "/home/wlwnstn2396/xycar_ws/build/xycar_msgs/xycar_msgs__rs"
+	}
+}

@@ -1,0 +1,24 @@
+[1.099s] Invoking command in '/home/wlwnstn2396/xycar_ws/build/my_cam': AMENT_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs LD_LIBRARY_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/wlwnstn2396/xycar_ws/build/my_cam/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wlwnstn2396/xycar_ws/install/my_cam/lib/python3.10/site-packages:/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/wlwnstn2396/xycar_ws/build/my_cam/build --no-deps symlink_data
+[1.308s] running develop
+[1.424s] running egg_info
+[1.424s] creating my_cam.egg-info
+[1.424s] writing my_cam.egg-info/PKG-INFO
+[1.425s] writing dependency_links to my_cam.egg-info/dependency_links.txt
+[1.425s] writing entry points to my_cam.egg-info/entry_points.txt
+[1.425s] writing requirements to my_cam.egg-info/requires.txt
+[1.425s] writing top-level names to my_cam.egg-info/top_level.txt
+[1.425s] writing manifest file 'my_cam.egg-info/SOURCES.txt'
+[1.427s] reading manifest file 'my_cam.egg-info/SOURCES.txt'
+[1.430s] writing manifest file 'my_cam.egg-info/SOURCES.txt'
+[1.430s] running build_ext
+[1.430s] Creating /home/wlwnstn2396/xycar_ws/install/my_cam/lib/python3.10/site-packages/my-cam.egg-link (link to .)
+[1.431s] Installing cam_viewer script to /home/wlwnstn2396/xycar_ws/install/my_cam/lib/my_cam
+[1.431s] 
+[1.431s] Installed /home/wlwnstn2396/xycar_ws/build/my_cam
+[1.431s] running symlink_data
+[1.431s] creating /home/wlwnstn2396/xycar_ws/install/my_cam/share/ament_index
+[1.432s] creating /home/wlwnstn2396/xycar_ws/install/my_cam/share/ament_index/resource_index
+[1.432s] creating /home/wlwnstn2396/xycar_ws/install/my_cam/share/ament_index/resource_index/packages
+[1.432s] symbolically linking /home/wlwnstn2396/xycar_ws/build/my_cam/resource/my_cam -> /home/wlwnstn2396/xycar_ws/install/my_cam/share/ament_index/resource_index/packages
+[1.432s] symbolically linking /home/wlwnstn2396/xycar_ws/build/my_cam/package.xml -> /home/wlwnstn2396/xycar_ws/install/my_cam/share/my_cam
+[1.463s] Invoked command in '/home/wlwnstn2396/xycar_ws/build/my_cam' returned '0': AMENT_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs:${AMENT_PREFIX_PATH} CMAKE_PREFIX_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs LD_LIBRARY_PATH=/home/wlwnstn2396/xycar_ws/install/xycar_msgs/lib:${LD_LIBRARY_PATH} PYTHONPATH=/home/wlwnstn2396/xycar_ws/build/my_cam/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/wlwnstn2396/xycar_ws/install/my_cam/lib/python3.10/site-packages:/home/wlwnstn2396/xycar_ws/install/xycar_msgs/local/lib/python3.10/dist-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py develop --editable --build-directory /home/wlwnstn2396/xycar_ws/build/my_cam/build --no-deps symlink_data
