@@ -52,11 +52,12 @@ class LaneDetector:
     def detect(self, bev_image):
         white_mask, yellow_mask = self.color_mask(bev_image)
 
-        # [수정] 좌우 탐색 영역이 절대로 중앙(200)을 넘어 서로의 영역을 침범하지 못하도록 락을 겁니다.
-        # 왼쪽 노란선은 0부터 190까지만 검색
+        # [수정] yellow_mask 전체를 세지 말고, 아래쪽 절반(행 200번부터 끝까지)만 셉니다.
+        # 이렇게 하면 상단의 잔디 노이즈나 멀리 있는 중앙선 때문에 뻥튀기되는 걸 막아줍니다.
+        yellow_pixel_count = np.count_nonzero(yellow_mask[200:, :]) 
+
+        # 좌우 탐색 (기존 코드 유지)
         left_x = self.scan_lane_x(yellow_mask, self.scan_lines, x_start=0, x_end=190, default_x=self.last_left_x)
-        
-        # 오른쪽 흰색선은 210부터 400까지만 검색
         right_x = self.scan_lane_x(white_mask, self.scan_lines, x_start=210, x_end=400, default_x=self.last_right_x)
 
         if left_x is not None: self.last_left_x = left_x
@@ -65,5 +66,5 @@ class LaneDetector:
         return {
             "left": left_x, "right": right_x, "yellow": left_x,
             "white_mask": white_mask, "yellow_mask": yellow_mask,
-            "white_lines": None, "yellow_lines": None
+            "yellow_count": yellow_pixel_count
         }

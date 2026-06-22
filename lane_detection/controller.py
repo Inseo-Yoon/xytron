@@ -34,7 +34,6 @@ class Controller:
         return np.clip(p_term + i_term + d_term, config.MIN_STEERING, config.MAX_STEERING)
 
     def update(self, lane_data, img_width):
-        """ Controller 클래스 내부로 들여쓰기를 맞춰 정렬했습니다 """
         left = lane_data.get("left")
         right = lane_data.get("right")
         center_x = img_width / 2  # 200
@@ -48,19 +47,24 @@ class Controller:
             self.current_lane = "both"
             
         elif left is not None:
-            # 세 번째 사진을 보면 left 점이 약 140~150 사이에 도달해 있습니다.
-            # 이 조건이 켜지면 타겟을 숏컷 방향인 left + 30 (약 170~180) 부근으로 강제 고정합니다.
-            if left > 130: 
-                target = left + 30  # 인코스로 더 날카롭게 파고들도록 수정
+            # 2. [우측 차선 실종 / 급우회전 케이스 - ★핵심 수정★]
+            # 우회전은 여유 공간이 없으므로, 노란선(left) 기준 마진을 대폭 줄여서 
+            # 차가 중앙선을 완전히 걸치고 넘어가듯 핸들을 폭발적으로 꺾게 만듭니다.
+            if left > 125: 
+                # 노란선이 안쪽으로 들어오면 타겟을 left + 15~20 수준으로 바짝 붙입니다.
+                # 오차가 왼쪽으로 거대하게 발생하여 조향각이 즉시 최대치(-100% 방향)로 꽂힙니다.
+                target = left + 20  # (기존 35 -> 20으로 축소하여 조향 대폭 강화)
             else:
-                lane_margin = int(self.last_track_width / 2) - 35
+                # 완만한 우회전에서도 평소보다 더 인코스를 타도록 마진을 추가로 깎습니다.
+                lane_margin = int(self.last_track_width / 2) - 45  # (기존 -35 -> -45로 인코스 심화)
                 target = left + lane_margin
             self.current_lane = "left_only"
             
         elif right is not None:
-            # 반대편 급좌회전 대응 대칭 보정
-            if right < 270: 
-                target = right - 30
+            # 3. [좌측 차선 실종 / 급좌회전 케이스]
+            # 좌회전은 상대적으로 회전 반경에 여유가 있으므로 기존의 안정적인 마진을 유지합니다.
+            if right < 275: 
+                target = right - 35  
             else:
                 lane_margin = int(self.last_track_width / 2) - 35
                 target = right - lane_margin

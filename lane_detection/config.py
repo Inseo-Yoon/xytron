@@ -52,10 +52,10 @@ MAX_LINE_GAP = 40
 MIN_STEERING = -100
 MAX_STEERING = 100
 
-MAX_SPEED = 12.0        # 가상환경 최고 속도 (약 20km/h)
-STRAIGHT_SPEED = 11.0   # 직선 레이싱은 시원하게 유지
-CURVE_SPEED = 4.5       # S자 연속 코너링을 안전하게 소화할 속도 (기존 5.0에서 하향)
-SHARP_SPEED = 3.0       # 완전 급커브 탈출용 (기존 3.5에서 하향)
+MAX_SPEED = 18.0        # 가상환경 최고 속도 (약 20km/h)
+STRAIGHT_SPEED = 15.0   # 직선 레이싱은 시원하게 유지
+CURVE_SPEED = 5.5       # S자 연속 코너링을 안전하게 소화할 속도 (기존 5.0에서 하향)
+SHARP_SPEED = 3.5       # 완전 급커브 탈출용 (기존 3.5에서 하향)
 
 ###############################################################################
 # 6. PID Control & Drive Algorithm (제어 계수 및 판단 기준)
