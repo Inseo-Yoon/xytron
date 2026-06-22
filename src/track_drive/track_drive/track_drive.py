@@ -1,111 +1,95 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*- 1
-#=============================================
-# 본 프로그램은 자이트론에서 제작한 것입니다.
-# 상업라이센스에 의해 제공되므로 무단배포 및 상업적 이용을 금합니다.
-# 교육과 실습 용도로만 사용가능하며 외부유출은 금지됩니다.
-#=============================================
-import rclpy, time, cv2, os, math
-import numpy as np
+import rclpy
 from rclpy.node import Node
 from xycar_msgs.msg import XycarMotor
 from sensor_msgs.msg import Image
-from sensor_msgs.msg import LaserScan
-from rclpy.qos import qos_profile_sensor_data
-from rclpy.duration import Duration
+from std_msgs.msg import String, Bool
 from cv_bridge import CvBridge
 
-#=============================================
-# ROS2 Node 클래스 정의
-#=============================================
+# 패키지 경로 (구조에 따라 수정하세요)
+from .lane_detection.camera import Camera
+from .lane_detection.lane_detector import LaneDetector
+from .lane_detection.controller import Controller
+from .lane_detection import config
+
 class TrackDriverNode(Node):
-
-    #=============================================
-    # 클래스 생성 초기화 함수
-    #=============================================
     def __init__(self):
+        super().__init__('track_driver_node')
 
-        super().__init__('driver')
-        self.get_logger().info('----- Xycar self-driving node started -----')
-        
-        # 상수값 및 초기값 설정
-        self.image = None  # 카메라 토픽 데이터를 저장할 변수
-        self.motor_msg = XycarMotor()  # 모터토픽 메시지        
-        self.lidar_ranges = None
+        # 1. 초기화
         self.bridge = CvBridge()
-        
-        # ROS2 Publisher & Subscriber 설정
-        self.motor_pub = self.create_publisher(XycarMotor,'xycar_motor',10)
-        
-        self.sub_front = self.create_subscription(
-            Image, '/usb_cam/image_raw/front', self.cam_callback, qos_profile_sensor_data)
+        self.cam_handler = Camera()
+        self.detector = LaneDetector()
+        self.controller = Controller()
 
-        self.subscription = self.create_subscription(
-            LaserScan, '/scan', self.lidar_callback, qos_profile_sensor_data)
-		
-        self.get_logger().info("Track Driver Node Initialized")
-              
-    #=============================================
-    # 카메라 토픽을 수신하는 콜백 함수
-    #=============================================
-    def cam_callback(self, data):
-        # 수신한 메시지를 OpenCV 이미지로 변환하여 저장
-        self.image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-    
-    #=============================================
-    # 라이다 토픽을 수신하는 콜백 함수
-    #=============================================
-    def lidar_callback(self, msg):
-        self.lidar_ranges = msg.ranges   
-      
-    #=============================================
-    # 모터제어 토픽을 발행하는 Publisher 함수
-    #=============================================
-    def drive(self, angle, speed):
-        self.motor_msg.angle = float(angle)
-        self.motor_msg.speed = float(speed)
-        self.motor_pub.publish(self.motor_msg)
+        # 상태 관리
+        self.current_traffic_action = "WAIT_START"
+        self.last_logged_traffic_action = None
+        self.lane_departure = False
 
-    #=============================================
-    # 메인 루프
-    #=============================================
-    def main_loop(self):
-    
-        self.get_logger().info("======================================")
-        self.get_logger().info("  S T A R T    D R I V I N G ...      ")
-        self.get_logger().info("======================================")
+        # 2. 퍼블리셔 & 서브스크라이버
+        self.motor_pub = self.create_publisher(XycarMotor, 'xycar_motor', 10)
 
-        while rclpy.ok():
-        
-            for _ in range(15):
-                self.drive(angle=0,speed=0)
-                time.sleep(0.1)
+        # 이미지 콜백
+        self.create_subscription(Image, '/usb_cam/image_raw/front', self.image_callback, 10)
+        # 신호등 콜백
+        self.create_subscription(String, '/traffic_action', self.traffic_callback, 10)
+        # 차선 이탈 콜백 (필요 시)
+        self.create_subscription(Bool, "/lane_departure", self.lane_departure_callback, 10)
 
-            for _ in range(15):
-                self.drive(angle=0,speed=5)
-                time.sleep(0.1)
-                
-#=============================================
-# 메인 함수
-#=============================================
+    def traffic_callback(self, msg):
+        self.current_traffic_action = msg.data
+        if self.current_traffic_action != self.last_logged_traffic_action:
+            self.get_logger().info(f"traffic_action: {self.current_traffic_action}")
+            self.last_logged_traffic_action = self.current_traffic_action
+
+    def lane_departure_callback(self, msg):
+        self.lane_departure = msg.data
+
+    def image_callback(self, msg):
+        try:
+            # 1. 영상 전처리 (BEV)
+            frame = self.bridge.imgmsg_to_cv2(msg, "bgr8")
+            _, bev = self.cam_handler.read(frame)
+            if bev is None:
+                self.publish_drive(0, 0)
+                return
+
+            # 2. 차선 인식
+            lane_data = self.detector.detect(bev)
+
+            # 3. [핵심] Controller에 신호등 상태와 함께 전달
+            # Controller 내부에서 traffic_action을 확인하여 0, 0을 반환하거나 주행 로직을 수행함
+            angle, speed, _ = self.controller.update(lane_data, config.WARP_WIDTH, self.current_traffic_action)
+
+            # 4. 차선 이탈 시 속도 보정 (Controller 외부 예외 처리)
+            if self.lane_departure:
+                speed = 3.0
+
+            # 5. 최종 발행
+            self.publish_drive(angle, speed)
+
+        except Exception as e:
+            self.get_logger().error(f"Processing error: {e}")
+
+    def publish_drive(self, angle, speed):
+        motor_msg = XycarMotor()
+        motor_msg.angle = float(angle)
+        motor_msg.speed = float(speed)
+        self.motor_pub.publish(motor_msg)
+
 def main(args=None):
-      
     rclpy.init(args=args)
     node = TrackDriverNode()
-	
     try:
-        # main_loop() 함수를 호출하여 실행합니다.
-        node.main_loop()
+        rclpy.spin(node)
     except KeyboardInterrupt:
-        # 사용자 인터럽트 (Ctrl+C)가 발생하면 예외를 처리합니다.
         pass
     finally:
-        # 노드를 종료하고 ROS2를 정리합니다.
-        node.drive(angle=0, speed=0)
-        cv2.destroyAllWindows()
+        # 안전하게 정지 후 종료
+        node.publish_drive(0, 0)
         node.destroy_node()
         rclpy.shutdown()
 
 if __name__ == '__main__':
     main()
-
