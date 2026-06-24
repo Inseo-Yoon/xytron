@@ -33,7 +33,7 @@ class Controller:
 
         return np.clip(p_term + i_term + d_term, config.MIN_STEERING, config.MAX_STEERING)
 
-    def update(self, lane_data, img_width, traffic_action):
+    def update(self, lane_data, img_width, traffic_action, in_school_zone=False):
         """ Controller 클래스 내부로 들여쓰기를 맞춰 정렬했습니다 """
         if traffic_action in ["STOP", "WAIT_START"]:
             return 0.0, 0.0, None
@@ -99,5 +99,9 @@ class Controller:
             speed = min(speed, config.SIGNAL_APPROACH_SPEED)
         elif traffic_action == "LEFT":
             speed = min(speed, config.LEFT_TURN_SPEED)
+
+        # 어린이 보호구역 진입 시 속도 상한 적용
+        if in_school_zone:
+            speed = min(speed, config.SCHOOL_ZONE_SPEED)
 
         return float(angle), float(speed), target

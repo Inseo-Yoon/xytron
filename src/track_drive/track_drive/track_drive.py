@@ -11,6 +11,7 @@ from .lane_detection.camera import Camera
 from .lane_detection.lane_detector import LaneDetector
 from .lane_detection.controller import Controller
 from .lane_detection import config
+from .lane_detection.school_zone_detector import SchoolZoneDetector
 
 class TrackDriverNode(Node):
     def __init__(self):
@@ -36,6 +37,8 @@ class TrackDriverNode(Node):
         self.create_subscription(String, '/traffic_action', self.traffic_callback, 10)
         # 차선 이탈 콜백 (필요 시)
         self.create_subscription(Bool, "/lane_departure", self.lane_departure_callback, 10)
+        # 어린이 보호구역
+        self.school_zone_detector = SchoolZoneDetector(confirm_frames=2)
 
     def traffic_callback(self, msg):
         self.current_traffic_action = msg.data
@@ -58,9 +61,11 @@ class TrackDriverNode(Node):
             # 2. 차선 인식
             lane_data = self.detector.detect(bev)
 
+            in_school_zone = self.school_zone_detector.detect(bev)
+
             # 3. [핵심] Controller에 신호등 상태와 함께 전달
             # Controller 내부에서 traffic_action을 확인하여 0, 0을 반환하거나 주행 로직을 수행함
-            angle, speed, _ = self.controller.update(lane_data, config.WARP_WIDTH, self.current_traffic_action)
+            angle, speed, _ = self.controller.update(lane_data, config.WARP_WIDTH, self.current_traffic_action, in_school_zone)
 
             # 4. 차선 이탈 시 속도 보정 (Controller 외부 예외 처리)
             if self.lane_departure:
