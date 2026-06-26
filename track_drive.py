@@ -17,8 +17,12 @@ from cv_bridge import CvBridge
 # [새로운 파이프라인 컴포넌트들 Import]
 from .lane_detection.camera import Camera, show_front_camera
 from .lane_detection.lane_detector import LaneDetector
-from .lane_detection.controller import Controller
-from .lane_detection import config
+from .controller import Controller          # lane_detection → 최상위
+from . import config                        # lane_detection → 최상위
+from .overtake import OvertakeManager       # 추가
+# 기존 두 줄 삭제하고 이걸로 교체
+from .overtake.lidar_analyzer import get_front_distance, get_left_distance, find_noise_boundaries
+
 
 #=============================================
 # ROS2 Node 클래스 정의
@@ -46,6 +50,7 @@ class TrackDriverNode(Node):
         self.cam_handler = Camera(cam_num=0) 
         self.detector = LaneDetector()
         self.controller = Controller()
+        self.overtake_manager = OvertakeManager()
 
         # ROS2 Publisher & Subscriber 설정
         self.motor_pub = self.create_publisher(XycarMotor, 'xycar_motor', 10)
@@ -84,9 +89,11 @@ class TrackDriverNode(Node):
         )
 
         # 실시간 모터 명령을 위해 저장
-        self.angle = angle
-        self.speed = speed
-
+        self.angle, self.speed, _ = self.overtake_manager.update(
+            lane_angle=angle,
+            lane_speed=speed,
+            lidar_ranges=self.lidar_ranges
+        )
         # 디버깅 창 시각화 (원본 프레임과 평면도를 동시에 모니터링)
         should_quit = show_front_camera(
             frame=self.image,

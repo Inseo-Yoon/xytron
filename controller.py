@@ -83,7 +83,7 @@ class Controller:
         angle = self.calculate_pid(error)
         abs_angle = abs(angle)
 
-        if abs_angle > 15.0:
+        if abs_angle > 20.0:
             self.cooldown_counter = self.COOLDOWN_FRAMES
             
         # 속도 제어 루틴 추가 (이전 업데이트본 반영)

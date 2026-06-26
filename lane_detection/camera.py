@@ -1,18 +1,12 @@
 import cv2
 import numpy as np
-from .config import *
-from . import config
+# lane_detection/camera.py
+from ..config import *                      # .config → ..config
+from .. import config                       # . → ..
 
 class Camera:
 
     def __init__(self, cam_num=0):
-        # 카메라 캡처 객체 생성 (가상환경 또는 실제 카메라)
-        self.cap = cv2.VideoCapture(cam_num)
-
-        # 기본 해상도 설정 (640x480)
-        self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, config.FRAME_WIDTH)
-        self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, config.FRAME_HEIGHT)
-
         # [투영 변환 매트릭스 계산]
         # config에 정의한 사다리꼴(SRC)과 직사각형(DST) 좌표를 매핑하는 변환 행렬 M을 생성합니다.
         self.M = cv2.getPerspectiveTransform(config.SRC_POINTS, config.DST_POINTS)

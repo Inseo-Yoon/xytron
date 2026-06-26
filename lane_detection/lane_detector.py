@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
-from .config import *
-from . import config
+from ..config import *                      # .config → ..config
+from .. import config                       # . → ..
 
 class LaneDetector:
 
